@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------
+   Tokens de design, amostrados dos pixels das telas (PIL).
+   --------------------------------------------------------------------- */
+@theme {
+  /* gradiente das telas 1 e 2 (topo -> base) */
+  --color-roxo-claro: #7a74ff;
+  --color-roxo-base: #3c38cf;
+  /* barra de título (tela 4) e bottom sheet do perfil (tela 5) */
+  --color-roxo-escuro: #3833a9;
+  /* cabeçalho do calendário */
+  --color-roxo-medio: #514bd7;
+  /* avatar e botões de chevron */
+  --color-avatar: #6c66f4;
+  /* gradiente dos botões quadrados e chips (topo -> base) */
+  --color-botao-topo: #7670fc;
+  --color-botao-base: #3f3bd2;
+  /* textos e bordas roxas dos cards */
+  --color-texto: #4e4add;
+  --color-texto-suave: #8e8aee;
+  /* fundo claro das telas internas */
+  --color-fundo: #f6f6f6;
+  /* pontos do calendário */
+  --color-ponto-vermelho: #df6662;
+  --color-ponto-cinza: #cacaca;
+
+  --radius-cartao: 0.75rem;
+}
+
+/* Fontes: Poppins no texto, fonte arredondada (Quicksand) no título da tela 1 */
+@theme inline {
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-titulo: var(--font-quicksand), ui-rounded, var(--font-poppins),
+    sans-serif;
+}
+
+@utility bg-gradiente-tela {
+  background-image: linear-gradient(
+    180deg,
+    var(--color-roxo-claro) 0%,
+    var(--color-roxo-base) 100%
+  );
+}
+
+@utility bg-gradiente-botao {
+  background-image: linear-gradient(
+    180deg,
+    var(--color-botao-topo) 0%,
+    var(--color-botao-base) 100%
+  );
+}
+
+/* Área mínima de toque de 44px, mesmo quando o app está reduzido */
+@utility alvo-toque {
+  min-height: max(2.75rem, 44px);
+}
+
+@layer base {
+  /*
+    O app é uma coluna de até 430px. O tamanho do rem acompanha a largura
+    dessa coluna (16px aos 430px), então todo o layout escala em proporção,
+    como nos mockups. Piso de 13px para telas muito estreitas.
+  */
+  html {
+    font-size: max(13px, calc(min(100vw, 430px) * 16 / 430));
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: #e9e8f7;
+    color: var(--color-texto);
+    font-family: var(--font-sans);
+  }
+
+  /* foco visível em fundo claro e em fundo roxo (anel escuro + anel branco) */
+  :focus-visible {
+    outline: 2px solid var(--color-roxo-escuro);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px #ffffff;
+  }
+
+  /* o autofill do navegador não pode pintar o campo de amarelo/azul */
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #ffffff;
+    caret-color: #ffffff;
+    -webkit-box-shadow: 0 0 0 1000px #5d58e3 inset;
+    transition: background-color 9999s ease-out 0s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
